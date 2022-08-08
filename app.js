@@ -7,11 +7,13 @@ mongoose.connect('mongodb://localhost/my_database', { useNewUrlParser: true });
 const ejs = require('ejs');
 const BlogPost = require('./models/BlogPost');
 const path= require('path');
+const fileUpload =require('express-fileUpload');
 
 app.use(express.static('public'));
 app.set('view engine','ejs');
 app.use(express.json());
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({extended: true}));
+app.use(fileUpload());
 // app.get("/",(req,res)=>{
 //   res.send('Hello,world!');
 // })
@@ -54,15 +56,21 @@ app.get('/posts/new/', (req, res) => {
 app.post('/posts/new', async (req, res) => {
   // console.log(req.body.title);
   // console.log((req.body.body));
-  await BlogPost.create(req.body)
+  await BlogPost.create(req.body);
   res.redirect('/');
 });
 
-// post a blog to the server
+// post a blog and image to the server
 app.post('/posts/store', async (req, res) => {
-  
-  await BlogPost.create(req.body)
+  let image = req.files.image
+  image.mv(path.resolve(__dirname,"public/image/img",image.name),
+    async(error)=>{
+      await BlogPost.create({
+        ...req.body,
+        image: '/img/' + image.name
+      })        
       res.redirect('/');
+    });    
 });
 
 app.listen(port, ()=>{

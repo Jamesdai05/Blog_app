@@ -27,9 +27,9 @@
                                 <h3 class="post-subtitle"><%=blogposts[i].body %> </h3>
                             </a>
                             <p class="post-meta">
-                                Posted b
-                                <a href="#!">James Dai</a>
-                                on September 24, 2021
+                                Posted by
+                                <a href="#!"><%= blogposts[i].username %></a>
+                                on <%= blogposts[i].datePosted.toDateString()%>
                             </p>
                         </div>
                         <!-- Divider-->
