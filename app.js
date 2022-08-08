@@ -12,6 +12,7 @@ app.use(express.urlencoded({extended: true}))
 //   res.send('Hello,world!');
 // })
 
+const BlogPost= require("./models/BlogPost");
 
 app.get("/",(req,res)=>{
   // res.sendFile(path.resolve(__dirname,"views/index.html"))
@@ -35,9 +36,11 @@ app.get("/posts/new", (req, res) => {
   res.render("create");
   
 });
-app.post("/posts/store", (req, res) => {
-  console.log(req.body);
-  res.redirect("/");
+app.post("/posts/store",async(req, res) => {
+  await BlogPost.create(req.body);
+    // console.log(req.body);
+    res.redirect("/");
+  
 });
 
 // app.update("/posts/update",(req,res)=>{
