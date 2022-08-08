@@ -18,7 +18,15 @@ mongoose.connect('mongodb://localhost/mydatabase', { useNewUrlParser: true });
 
 BlogPost.find({ title:'how to link to the mongodb through wsl'},(error,blogpost)=>{
   console.log(error,blogpost)
-})
+});
+
+// BlogPost.findByIdAndUpdate({ title="" }, (error, blogpost) => {
+//   console.log(error, blogpost)
+// });
+
+
+
+
 
 
 

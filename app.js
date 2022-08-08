@@ -4,30 +4,42 @@ const mongoose =require('mongoose');
 const port = 3003;
 mongoose.connect('mongodb://localhost/my_database', { useNewUrlParser: true });
 
+const newPostController = require('./controllers/newPost');
+const listPostsController = require('./controllers/listPosts');
+const storePostController = require('./controllers/storePost');
+const getPostController = require('./controllers/getPost');
+
+
+
 const ejs = require('ejs');
 const BlogPost = require('./models/BlogPost');
 const path= require('path');
 const fileUpload =require('express-fileUpload');
+const listPosts = require('./controllers/listPosts');
+const validateMiddelWare =(req,res,next)=>{
+  if(req.files ==null || req.body.title == null){
+    return res.redirect("/posts/new");
+  }
+  next();
+}
+
 
 app.use(express.static('public'));
 app.set('view engine','ejs');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(fileUpload());
+app.use("/posts/store", validateMiddelWare);
+
+
+
 // app.get("/",(req,res)=>{
 //   res.send('Hello,world!');
 // })
 
 
 
-app.get('/', async (req, res) => {
-  // list the blogposts without filtering condition 
-  const blogposts = await BlogPost.find({})
-  console.log(blogposts)
-  res.render('index', {
-    blogposts
-  });
-});
+app.get('/', listPostsController);
 
 app.get('/about', (req, res) => {
   res.render('about');
@@ -42,36 +54,14 @@ app.get('/contact', (req, res) => {
 // });
 
 // retrieve a single post by id
-app.get('/post/:id', async (req, res) => {
-  const blogpost = await BlogPost.findById(req.params.id)
-  res.render('post', {
-    blogpost
-  });
-});
+app.get('/post/:id', getPostController);
 
-app.get('/posts/new/', (req, res) => {
-  res.render('create');
-});
+app.get('/posts/new/', newPostController);
 
-app.post('/posts/new', async (req, res) => {
-  // console.log(req.body.title);
-  // console.log((req.body.body));
-  await BlogPost.create(req.body);
-  res.redirect('/');
-});
+app.post('/posts/new', newPostController);
 
 // post a blog and image to the server
-app.post('/posts/store', async (req, res) => {
-  let image = req.files.image
-  image.mv(path.resolve(__dirname,"public/image/img",image.name),
-    async(error)=>{
-      await BlogPost.create({
-        ...req.body,
-        image: '/img/' + image.name
-      })        
-      res.redirect('/');
-    });    
-});
+app.post('/posts/store',storePostController);
 
 app.listen(port, ()=>{
   console.log(`app listening on port ${port}`);
