@@ -1,6 +1,6 @@
 const express = require('express');
-const path = require('path');
 const app = express();
+const mongoose =require('mongoose');
 const port = 3003;
 const ejs = require('ejs');
 
@@ -28,7 +28,16 @@ app.get("/contact", (req, res) => {
 });
 app.get("/post", (req, res) => {
   res.render("post")
-})
+});
+
+app.get("/posts/new", (req, res) => {
+  res.render("create")
+});
+
+app.post("/posts/store", (req, res) => {
+  console.log(req.body);
+  res.redirct('/')
+});
 
 app.listen(port, ()=>{
   console.log(`app listening on port ${port}`);
