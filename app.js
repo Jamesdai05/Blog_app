@@ -46,7 +46,7 @@ app.post('/posts/store', async (req, res) => {
     async (error) => {
       await BlogPost.create({
         ...req.body,
-        image: '/assets/img' + image.name
+        image: '/image/img' + image.name
       })
       res.redirect('/');
     });
