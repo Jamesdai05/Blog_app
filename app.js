@@ -14,9 +14,13 @@ app.use(express.urlencoded({extended: true}))
 
 const BlogPost= require("./models/BlogPost");
 
-app.get("/",(req,res)=>{
-  // res.sendFile(path.resolve(__dirname,"views/index.html"))
-  res.render("index")
+app.get('/', async (req, res) => {
+  // list the blogposts 
+  const blogposts = await BlogPost.find({})
+  console.log(blogposts)
+  res.render('index', {
+    blogposts
+  });
 });
 
 app.get("/about", (req, res) => {
