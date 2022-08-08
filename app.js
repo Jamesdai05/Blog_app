@@ -40,11 +40,16 @@ app.get("/posts/new", (req, res) => {
   res.render("create");
   
 });
-app.post("/posts/store",async(req, res) => {
-  await BlogPost.create(req.body);
-    // console.log(req.body);
-    res.redirect("/");
-  
+app.post('/posts/store', async (req, res) => {
+  let image = req.files.image
+  image.mv(path.resolve(__dirname, 'public/image/img', image.name),
+    async (error) => {
+      await BlogPost.create({
+        ...req.body,
+        image: '/assets/img' + image.name
+      })
+      res.redirect('/');
+    });
 });
 
 // app.update("/posts/update",(req,res)=>{
