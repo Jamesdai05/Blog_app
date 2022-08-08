@@ -2,7 +2,11 @@ const express = require('express');
 const app = express();
 const mongoose =require('mongoose');
 const port = 3003;
+mongoose.connect('mongodb://localhost/my_database', { useNewUrlParser: true });
+
 const ejs = require('ejs');
+const BlogPost = require('./models/BlogPost');
+const path= require('path');
 
 app.use(express.static('public'));
 app.set('view engine','ejs');
@@ -12,10 +16,10 @@ app.use(express.urlencoded({extended: true}))
 //   res.send('Hello,world!');
 // })
 
-const BlogPost= require("./models/BlogPost");
+
 
 app.get('/', async (req, res) => {
-  // list the blogposts 
+  // list the blogposts without filtering condition 
   const blogposts = await BlogPost.find({})
   console.log(blogposts)
   res.render('index', {
@@ -23,38 +27,43 @@ app.get('/', async (req, res) => {
   });
 });
 
-app.get("/about", (req, res) => {
-  res.render("about")
-
+app.get('/about', (req, res) => {
+  res.render('about');
 });
 
-app.get("/contact", (req, res) => {
-  res.render("contact")
-
-});
-app.get("/post", (req, res) => {
-  res.render("post")
+app.get('/contact', (req, res) => {
+  res.render('contact');
 });
 
-app.get("/posts/new", (req, res) => {
-  res.render("create");
-  
+// app.get('/post',(req, res) =>{
+//   res.render('post');
+// });
+
+// retrieve a single post by id
+app.get('/post/:id', async (req, res) => {
+  const blogpost = await BlogPost.findById(req.params.id)
+  res.render('post', {
+    blogpost
+  });
 });
+
+app.get('/posts/new/', (req, res) => {
+  res.render('create');
+});
+
+app.post('/posts/new', async (req, res) => {
+  // console.log(req.body.title);
+  // console.log((req.body.body));
+  await BlogPost.create(req.body)
+  res.redirect('/');
+});
+
+// post a blog to the server
 app.post('/posts/store', async (req, res) => {
-  let image = req.files.image
-  image.mv(path.resolve(__dirname, 'public/image/img', image.name),
-    async (error) => {
-      await BlogPost.create({
-        ...req.body,
-        image: '/image/img' + image.name
-      })
-      res.redirect('/');
-    });
-});
-
-// app.update("/posts/update",(req,res)=>{
   
-// })
+  await BlogPost.create(req.body)
+      res.redirect('/');
+});
 
 app.listen(port, ()=>{
   console.log(`app listening on port ${port}`);
