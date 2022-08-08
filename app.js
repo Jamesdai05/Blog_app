@@ -32,13 +32,17 @@ app.get("/post", (req, res) => {
 });
 
 app.get("/posts/new", (req, res) => {
-  res.render("create")
+  res.render("create");
+  
 });
-
 app.post("/posts/store", (req, res) => {
   console.log(req.body);
-  res.redirct('/')
+  res.redirect("/");
 });
+
+// app.update("/posts/update",(req,res)=>{
+  
+// })
 
 app.listen(port, ()=>{
   console.log(`app listening on port ${port}`);

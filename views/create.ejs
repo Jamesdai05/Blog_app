@@ -29,27 +29,27 @@
                       <label for="name">Title</label>
                     </div>
                     <div class="form-floating">
-                      <textarea class="form-control" id="body" 
-                        style="height: 12rem" name="body"></textarea>
-                      <label for="message">Artical</label>
+                      <textarea class="form-control" id="body" type="text" name="body"></textarea>
+                      <label for="message">Description</label>
                     </div>
-                    <br />
-                    <div class="d-none" id="submitSuccessMessage">
-                      <div class="text-center mb-3">
-                        <div class="fw-bolder">Form submission successful!</div>
-                        To activate this form, sign up at
-                        <br />
-                        <a
-                          href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                    <div class="form-floating">
+                      <div class="form-group floating-lable-form-group controls">
+                        <label>Image</label>
+                        <input type="file" class="form-control" id="image" name="image">
                       </div>
                     </div>
-
+                    <br>
+                    <div class="d-none" id="submitSuccesMessage">
+                      <div class="text-center mb-3">
+                        <div class="fw-bolder">Artical submission successful!</div>
+                        <br />
+                      </div>
+                    </div>
                     <div class="d-none" id="submitErrorMessage">
                       <div class="text-center text-danger mb-3">Error sending message!</div>
                     </div>
                     <!-- Submit Button-->
-                    <button class="btn btn-primary text-uppercase disabled" id="submitButton"
-                      type="submit">Send</button>
+                    <button class="btn btn-primary" id="submitButton" type="submit">Send</button>
                   </form>
                 </div>
               </div>
