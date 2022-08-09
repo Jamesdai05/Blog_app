@@ -15,6 +15,7 @@ const newUserController = require('./controllers/newUser');
 const storeUserController = require('./controllers/storeUser');
 const loginController = require('./controllers/login');
 const loginUserController=require('./controllers/loginUser');
+const logoutUserController = require('./controllers/logout');
 
 const ejs = require('ejs');
 // const path= require('path');
@@ -22,6 +23,8 @@ const fileUpload =require('express-fileUpload');
 const session= require('express-session')
 // const loginUser = require('./controllers/loginUser');
 const validateMiddelWare =require('./middleware/validationMiddleware');
+const authMiddleWare = require('./middleware/authMiddleware');
+const redirectiIfAuthenticated = require('./middleware/redirectedifauthenticated');
 
 
 app.use(express.static('public'));
@@ -36,6 +39,12 @@ app.use(session({
   saveUninitialized: true,
 }))
 
+//hide new post and conditionally display the navbar
+global.loggedIn =null;
+app.use("*", (req,res,next)=>{
+  loggedIn = req.session.userId
+  next();
+})
 
 
 // app.get("/",(req,res)=>{
@@ -57,19 +66,21 @@ app.get('/contact', (req, res) => {
 // retrieve a single post by id
 app.get('/post/:id', getPostController);
 
-app.get('/posts/new/', newPostController);
+app.get('/posts/new/',authMiddleWare, newPostController);
 
 // app.post('/posts/new', newPostController);
 
 // post a blog and image to the server
-app.post('/posts/store',storePostController);
+app.post('/posts/store',authMiddleWare,storePostController);
 
-app.get('/auth/register', newUserController);
-app.post('/users/register',storeUserController);
+app.get('/auth/register', redirectiIfAuthenticated, newUserController);
+app.post('/users/register', redirectiIfAuthenticated,storeUserController);
 
-app.get('/auth/login', loginController);
+app.get('/auth/login', redirectiIfAuthenticated,loginController);
 
-app.post('/users/login',loginUserController)
+app.post('/users/login',redirectiIfAuthenticated,loginUserController)
+
+app.get('/auth/logout', redirectiIfAuthenticated,logoutUserController);
 
 app.listen(port, async()=>{
   try { 
