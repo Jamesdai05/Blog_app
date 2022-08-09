@@ -81,6 +81,9 @@ app.get('/auth/login', redirectiIfAuthenticated,loginController);
 app.post('/users/login',redirectiIfAuthenticated,loginUserController)
 
 app.get('/auth/logout', redirectiIfAuthenticated,logoutUserController);
+app.use((req,res)=>{
+  res.render('Notfound')
+})
 
 app.listen(port, async()=>{
   try { 
