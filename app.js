@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const mongoose =require('mongoose');
 const port = 3003;
-mongoose.connect('mongodb://localhost/my_database', { useNewUrlParser: true });
+const connStr = 'mongodb://localhost/my_database';
+// mongoose.connect(connStr, { useNewUrlParser: true });
+ 
 
 const newPostController = require('./controllers/newPost');
 const listPostsController = require('./controllers/listPosts');
@@ -17,7 +19,6 @@ const ejs = require('ejs');
 const BlogPost = require('./models/BlogPost');
 const path= require('path');
 const fileUpload =require('express-fileUpload');
-const listPosts = require('./controllers/listPosts');
 const validateMiddelWare =(req,res,next)=>{
   if(req.files ==null || req.body.title == null){
     return res.redirect("/posts/new");
@@ -29,7 +30,7 @@ const validateMiddelWare =(req,res,next)=>{
 app.use(express.static('public'));
 app.set('view engine','ejs');
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: false}));
 app.use(fileUpload());
 app.use("/posts/store", validateMiddelWare);
 
@@ -64,6 +65,11 @@ app.post('/posts/store',storePostController);
 app.get('/auth/register', newUserController);
 app.post('/users/register',storeUserController);
 
-app.listen(port, ()=>{
+app.listen(port, async()=>{
+  try { 
+    await mongoose.connect(connStr, { useNewUrlParser: true });
+  } catch {
+    console.log(`Failed to connect to DB`);
+  }
   console.log(`app listening on port ${port}`);
 })
