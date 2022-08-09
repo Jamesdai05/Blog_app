@@ -17,9 +17,9 @@ const loginController = require('./controllers/login');
 const loginUserController=require('./controllers/loginUser');
 
 const ejs = require('ejs');
-const BlogPost = require('./models/BlogPost');
-const path= require('path');
+// const path= require('path');
 const fileUpload =require('express-fileUpload');
+const session= require('express-session')
 // const loginUser = require('./controllers/loginUser');
 const validateMiddelWare =(req,res,next)=>{
   if(req.files ==null || req.body.title == null){
@@ -35,6 +35,11 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(fileUpload());
 app.use("/posts/store", validateMiddelWare);
+app.use(session({
+  secret:"keyboard cat",
+  resave: false,
+  saveUninitialized: true,
+}))
 
 
 
