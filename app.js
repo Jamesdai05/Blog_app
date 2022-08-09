@@ -13,12 +13,14 @@ const getPostController = require('./controllers/getPost');
 
 const newUserController = require('./controllers/newUser');
 const storeUserController = require('./controllers/storeUser');
-
+const loginController = require('./controllers/login');
+const loginUserController=require('./controllers/loginUser');
 
 const ejs = require('ejs');
 const BlogPost = require('./models/BlogPost');
 const path= require('path');
 const fileUpload =require('express-fileUpload');
+const loginUser = require('./controllers/loginUser');
 const validateMiddelWare =(req,res,next)=>{
   if(req.files ==null || req.body.title == null){
     return res.redirect("/posts/new");
@@ -65,11 +67,16 @@ app.post('/posts/store',storePostController);
 app.get('/auth/register', newUserController);
 app.post('/users/register',storeUserController);
 
+app.get('/auth/login', loginController);
+
+app.post('/users/login',loginUserController)
+
 app.listen(port, async()=>{
   try { 
     await mongoose.connect(connStr, { useNewUrlParser: true });
   } catch {
     console.log(`Failed to connect to DB`);
+    process.exit(1)
   }
   console.log(`app listening on port ${port}`);
 })
