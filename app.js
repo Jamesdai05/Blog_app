@@ -21,12 +21,7 @@ const ejs = require('ejs');
 const fileUpload =require('express-fileUpload');
 const session= require('express-session')
 // const loginUser = require('./controllers/loginUser');
-const validateMiddelWare =(req,res,next)=>{
-  if(req.files ==null || req.body.title == null){
-    return res.redirect("/posts/new");
-  }
-  next();
-}
+const validateMiddelWare =require('./middleware/validationMiddleware');
 
 
 app.use(express.static('public'));
