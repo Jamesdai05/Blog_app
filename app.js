@@ -20,7 +20,7 @@ const ejs = require('ejs');
 const BlogPost = require('./models/BlogPost');
 const path= require('path');
 const fileUpload =require('express-fileUpload');
-const loginUser = require('./controllers/loginUser');
+// const loginUser = require('./controllers/loginUser');
 const validateMiddelWare =(req,res,next)=>{
   if(req.files ==null || req.body.title == null){
     return res.redirect("/posts/new");

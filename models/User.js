@@ -9,7 +9,7 @@ const UserSchema = new Schema({
     required: true,
     unique: true
   },
-  Passowrd: {
+  password: {
     type: String,
     required: true,
   }
@@ -17,8 +17,8 @@ const UserSchema = new Schema({
 
 UserSchema.pre("save", function(next){
   const user= this
-  bcrypt.hash(user.Passowrd, 100,(error,hash)=>{
-    user.Password = hash
+  bcrypt.hash(user.password, 15,(error,hash)=>{
+    user.password = hash
     next()
   })
 })
