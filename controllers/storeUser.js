@@ -4,16 +4,15 @@ const path = require('path');
 
 module.exports = (req,res)=>{
   User.create(req.body, (error, user) => {
-    console.log(error)
+    // console.log(error)
     if (error){ 
-      const errorMessages=Object.keys(error.errors).map(key=>error.errors[key].message)
-      // req.session.validationErrors=validationErrors
+      const validationErrors =Object.keys(error.errors).map(key=>error.errors[key].message)
+      req.session.validationErrors=validationErrors
       // console.log(validationErrors)
-      console.log(errorMessages)
-       res.render('register',{
+      // console.log(errorMessages)
+       return res.redirect('register'/*,{ 
         errors:errorMessages
-      });
-      return
+      }*/);
     }
     res.redirect("/");
   });
