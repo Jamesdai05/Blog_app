@@ -10,7 +10,7 @@ module.exports = (req,res)=>{
       req.session.validationErrors=validationErrors
       // console.log(validationErrors)
       // console.log(errorMessages)
-       return res.redirect('register'/*,{ 
+      return res.redirect('/auth/register'/*,{ 
         errors:errorMessages
       }*/);
     }
