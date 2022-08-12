@@ -33,17 +33,17 @@
                   <% } %> 
                   <form action="/users/register" method="POST" enctype="multipart/form-data">
                     <div class="form-floating">
-                      <input class="form-control" id="username" placeholder="username" type="text" name="username">
+                      <input class="form-control" id="username" placeholder="username" type="text" name="username" value="<%= username %>">
                       <label for="name">username</label>
                     </div>
                     <div class="form-floating">
-                      <input class="form-control" id="password" placeholder ="password" type="password" name="password">
+                      <input class="form-control" id="password" placeholder ="password" type="password" name="password" value="<%= password %>">
                       <label for="name">Password</label>
                     </div>
-                    <div class="form-floating">
+                    <!-- <div class="form-floating">
                       <input class="form-control" id="password" placeholder="password" type="password" name="password">
                       <label for="name">Confirm Password</label>
-                    </div>
+                    </div> -->
                     <br>
                     <button class="btn btn-primary"type="submit">Register</button>
                   </form>

@@ -15,8 +15,11 @@
                                 Posted by
                                 <a href="#!"><%= blogpost.username %></a>
                                 <%= blogpost.datePosted.toDateString() %>
-                            </span>
-                            <button>Update</button>
+                            </span>                            
+                        </div>
+                        <div class="mt-15">
+                          <button class="mt-5 mr-4">update</button>
+                          <button class="mt-5 mr-4">delete</button>
                         </div>
                     </div>
                 </div>
@@ -28,7 +31,7 @@
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <%= blogpost.body %> 
-                    </div>
+                    </div>                    
         </article>
         <%- include('layouts/footer'); -%>
         <%- include('layouts/scripts'); -%>

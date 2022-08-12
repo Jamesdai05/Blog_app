@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const mongoose =require('mongoose');
 const port = process.env.PORT || 8020;
-const connStr = 'mongodb://localhost/my_database';
+const connStr = "mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.vniy6mj.mongodb.net/test";
 // mongoose.connect(connStr, { useNewUrlParser: true });
 const flash = require('connect-flash'); 
 
@@ -34,9 +34,10 @@ app.use(express.urlencoded({extended: false}));
 app.use(fileUpload());
 app.use("/posts/store", validateMiddelWare);
 app.use(session({
-  secret:"keyboard cat",
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
+  cookie: { secure: false, httpOnly: false, maxAge: 7200000 }
 }))
 
 app.use(flash());
@@ -61,9 +62,9 @@ app.get('/about', (req, res) => {
   res.render('about');
 });
 
-app.get('/contact', (req, res) => {
-  res.render('contact');
-});
+// app.get('/contact', (req, res) => {
+//   res.render('contact');
+// });
 
 // retrieve a single post by id
 app.get('/post/:id', getPostController);
@@ -105,7 +106,7 @@ app.use((req,res)=>{
 
 app.listen(port, async()=>{
   try { 
-    await mongoose.connect(connStr, { useNewUrlParser: true });
+    await mongoose.connect(connStr, { dbName: 'BlogPost'});
   } catch {
     console.log(`Failed to connect to DB`);
     process.exit(1)
