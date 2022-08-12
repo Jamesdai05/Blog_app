@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const mongoose =require('mongoose');
 const port = process.env.PORT || 8020;
-const connStr = "mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.vniy6mj.mongodb.net/test";
+const connStr = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.vniy6mj.mongodb.net/test`;
 // mongoose.connect(connStr, { useNewUrlParser: true });
 const flash = require('connect-flash'); 
 

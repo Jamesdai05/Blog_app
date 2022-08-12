@@ -25,4 +25,4 @@
 - Popup the reminder message when the username/password is wrong  
 - Password confirmation for the registration page can be added.
 - Post edit routes can add the image upload. 
-- Link the user and posts 2 models collection (not done) 
+- Link the user and posts 2 models/collections (Not Done). 
