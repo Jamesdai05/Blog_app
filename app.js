@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
 const mongoose =require('mongoose');
-const port = 8020;
+const port = process.env.PORT || 8020;
 const connStr = 'mongodb://localhost/my_database';
 // mongoose.connect(connStr, { useNewUrlParser: true });
- 
+const flash = require('connect-flash'); 
 
 const newPostController = require('./controllers/newPost');
 const listPostsController = require('./controllers/listPosts');
@@ -39,6 +39,8 @@ app.use(session({
   saveUninitialized: true,
 }))
 
+app.use(flash());
+
 //hide new post and conditionally display the navbar
 global.loggedIn =null;
 app.use("*", (req,res,next)=>{
@@ -66,7 +68,23 @@ app.get('/contact', (req, res) => {
 // retrieve a single post by id
 app.get('/post/:id', getPostController);
 
-app.get('/posts/new/',authMiddleWare, newPostController);
+// app.patch('/post/:id/:edit',(req,res)=>{
+//   const title = req.body.title
+//   const id= req.params.artical_id
+
+//       artical[ind].title = title;
+
+//       res.redirect(`create`)
+//     },
+
+//     deletePokemon: (req, res) => {
+//       const ind = req.params.pokemon_id
+//       pokemon.splice(ind, 1)
+//       res.redirect('/pokemon')
+//     }
+// })
+
+app.get('/posts/new/',authMiddleWare,newPostController);
 
 // app.post('/posts/new', newPostController);
 
