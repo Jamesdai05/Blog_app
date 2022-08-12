@@ -69,7 +69,7 @@ app.get('/about', (req, res) => {
 // retrieve a single post by id
 app.get('/post/:id', getPostController);
 
-// app.patch('/post/:id/:edit',(req,res)=>{
+// app.patch('/post/:id/edit',(req,res)=>{
 //   const title = req.body.title
 //   const id= req.params.artical_id
 
@@ -78,12 +78,6 @@ app.get('/post/:id', getPostController);
 //       res.redirect(`create`)
 //     },
 
-//     deletePokemon: (req, res) => {
-//       const ind = req.params.pokemon_id
-//       pokemon.splice(ind, 1)
-//       res.redirect('/pokemon')
-//     }
-// })
 
 app.get('/posts/new/',authMiddleWare,newPostController);
 
